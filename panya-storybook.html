@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panya: AI can build it. Only you can decide if it’s right.</title>
+<meta name="description" content="Panya is a learning companion that helps people new to building with AI notice the decisions AI makes, understand what they mean, and stay in charge of what they create.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@600&family=Fredoka:wght@500;600&family=Noto+Sans+Thai:wght@500&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#EEF4EF; --page:#FFFDF7; --ink:#263248; --muted:#536072; --sea:#4FA7C2; --glass:#A8DCCF; --water-soft:#D6EEF0;
+  --coral:#F08C6E; --coral-2:#D9694C; --sun:#FFCB5C; --spine:#D8C9B2; --surface:#FFFDF7; --shell:#FCE6CC; --sand-2:#F3DDB8; --rock:#CDBBA6; --warn:#9A3D12;
+  --btn:#263248; --btn-ink:#FFFDF7;
+  --story:"Young Serif", Georgia, "Times New Roman", serif;
+  --display:"Fredoka", "Trebuchet MS", sans-serif;
+  --body:"Atkinson Hyperlegible", "Segoe UI", Roboto, Arial, sans-serif;
+  --hand:"Caveat", "Comic Sans MS", cursive;
+}
+@media (prefers-color-scheme: dark){
+  :root{ color-scheme: dark; --paper:#152234; --page:#1E2E43; --ink:#F2E9D8; --muted:#C6BEB0; --spine:#2B3E56; --surface:#1E2E43;
+    --water-soft:#24445A; --shell:#3D5168; --sand-2:#2A4058; --rock:#3E5268; --coral-2:#F59A7C; --warn:#F5B98A; --btn:#FFCB5C; --btn-ink:#152234; }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.65 var(--body)}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px;border-radius:8px}
+.wrap{max-width:70rem;margin:0 auto;padding:0 1.5rem}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+header .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:1.4rem;padding-bottom:1.4rem}
+.logo{display:flex;align-items:center;gap:.55rem;text-decoration:none;font:600 1.6rem/1 var(--display)}
+.logo span{font:500 1rem/1 "Noto Sans Thai", Tahoma, sans-serif;color:var(--muted)}
+.nav-cta{font:600 1rem var(--display);text-decoration:none;min-height:44px;display:inline-flex;align-items:center;padding:0 1.2rem;border:2.5px solid var(--ink);border-radius:20px 24px 18px 26px}
+.nav-cta:hover{background:var(--ink);color:var(--paper)}
+
+/* Book pages, stacked down the page */
+.spread{display:grid;grid-template-columns:1.08fr 1fr;background:var(--page);border-radius:10px 14px 14px 10px;box-shadow:0 1px 0 var(--spine),0 18px 40px -18px rgba(30,40,60,.45);overflow:hidden}
+.flip .spread{grid-template-columns:1fr 1.08fr}
+.flip .art-page{order:2;border-right:0;border-left:2px solid var(--spine)}
+.page{position:relative}
+.art-page{background:#FFFDF7;border-right:2px solid var(--spine);display:flex;align-items:center}
+.art{display:block;width:100%;height:auto;aspect-ratio:600/460}
+.words{padding:clamp(1.75rem,4vw,3.5rem);display:flex;flex-direction:column;justify-content:center}
+.num,.tag{font:600 1.5rem/1 var(--hand);color:var(--coral-2);margin:0 0 .8rem}
+.words h1{font:400 clamp(2rem,3.6vw,3rem)/1.12 var(--story);margin:0 0 1.1rem}
+.words h2{font:400 clamp(1.7rem,3vw,2.4rem)/1.15 var(--story);margin:0 0 1rem}
+.story{font:400 1.15rem/1.7 var(--story);color:var(--muted);margin:0 0 1rem;max-width:32rem}
+.th{font-family:"Noto Sans Thai", Tahoma, sans-serif}
+.cover{padding-top:.5rem;padding-bottom:3.5rem}
+.cover .art-page{min-height:440px}
+.cover .art{position:absolute;inset:0;height:100%;aspect-ratio:auto}
+@media (max-width: 860px){.cover .art-page{min-height:0}.cover .art{position:static;height:auto;aspect-ratio:600/460}}
+.cover .signup{margin-top:.5rem}
+.fine{font-size:.9rem;color:var(--muted);margin:.4rem 0 0}
+.chapter{padding:2.5rem 0}
+.chapter + .chapter::before{content:"";display:block;width:90px;height:16px;margin:0 auto 2.5rem;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='12' viewBox='0 0 60 12'><path d='M0 6 C8 0 14 0 22 6 S36 12 44 6 S56 0 60 6' fill='none' stroke='%234FA7C2' stroke-width='3' stroke-linecap='round'/></svg>") repeat-x center / 60px 12px}
+@media (prefers-reduced-motion: no-preference){
+  .art .panya{animation:bob 3.2s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+  @keyframes bob{0%,100%{translate:0 0}50%{translate:0 -4px}}
+}
+
+/* The original content, set beneath each chapter */
+.extra{margin-top:2rem}
+.extra-label{font:600 1.6rem/1 var(--hand);color:var(--ink);margin:0 0 1rem}
+.extra-convo{max-width:42rem;margin-left:auto;margin-right:auto}
+.steps{list-style:none;counter-reset:step;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;align-items:start}
+.steps li{counter-increment:step;padding:1.3rem 1.2rem;background:var(--page);border:2.5px solid var(--ink);border-radius:26px 18px 28px 20px}
+.steps li:nth-child(odd){transform:rotate(-.8deg)}
+.steps li:nth-child(even){transform:rotate(.7deg)}
+.steps li::before{content:counter(step);display:inline-grid;place-items:center;width:32px;height:32px;margin-bottom:.7rem;border-radius:50%;background:var(--sun);border:2px solid var(--ink);font:600 1rem var(--display);color:#263248}
+.step-who{margin:0 0 .35rem;font:600 1.15rem/1.25 var(--display)}
+.step-text{margin:0;color:var(--muted);font-size:.98rem}
+.steps .hidden-choice{border-style:dashed;background:transparent}
+.steps .panya-step{background:var(--glass)}
+.steps .panya-step .step-text{color:var(--ink)}
+@media (prefers-color-scheme: dark){.steps .panya-step .step-text,.steps .panya-step .step-who{color:#152234}}
+
+.convo{background:var(--page);border:2.5px solid var(--ink);border-radius:34px 26px 38px 28px;padding:1.6rem;display:flex;flex-direction:column;gap:.85rem;box-shadow:5px 5px 0 var(--glass)}
+.msg{max-width:90%}
+.msg .who{font:600 .85rem var(--display);color:var(--muted);margin:0 0 .25rem}
+.msg p{margin:0}
+.bubble{padding:.85rem 1.1rem;border:2px solid var(--ink);border-radius:22px 18px 22px 20px}
+.you{align-self:flex-end}
+.you .who{text-align:right}
+.you .bubble{background:var(--btn);color:var(--btn-ink);border-bottom-right-radius:6px}
+.panya .bubble{background:var(--water-soft);border-bottom-left-radius:6px}
+.question{font:600 1.05rem/1.35 var(--display);margin-top:.45rem !important}
+.handoff{align-self:stretch;max-width:100%;border:2.5px dashed var(--coral);border-radius:22px;padding:.8rem 1.1rem;background:var(--paper)}
+.handoff .note{font:600 1.45rem/1 var(--hand);color:var(--coral-2)}
+.handoff ul{list-style:none;margin:.3rem 0 0;padding:0;font-size:.95rem}
+.handoff li + li{margin-top:.25rem}
+
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.principles > div{background:var(--page);border:2.5px solid var(--ink);border-radius:28px 20px 30px 22px;padding:1.4rem}
+.icon{color:var(--ink);margin-bottom:.6rem}
+.principles h3{font:600 1.25rem/1.25 var(--display);margin:0 0 .5rem}
+.principles p{margin:0;color:var(--muted)}
+
+/* After the story */
+section.who-for,section.faq,section.final{padding:4.5rem 0}
+section.who-for h2,section.faq h2,section.final h2{font:400 clamp(1.8rem,3.4vw,2.5rem)/1.15 var(--story);margin:0 0 1rem;max-width:22ch}
+.intro{color:var(--muted);max-width:37rem;margin:0 0 2.25rem;font-size:1.1rem}
+.who-for ul{list-style:none;padding:0;margin:0 0 2.5rem;display:flex;flex-wrap:wrap;gap:.65rem}
+.who-for li{padding:.45rem 1.05rem;background:var(--page);border:2px solid var(--ink);border-radius:18px 22px 16px 24px;font-weight:700}
+.who-for li:nth-child(1){background:var(--glass)} .who-for li:nth-child(3){background:var(--shell)} .who-for li:nth-child(5){background:var(--sand-2)}
+@media (prefers-color-scheme: dark){.who-for li:nth-child(1){color:#152234}}
+.who-for blockquote{margin:0;font:400 clamp(1.45rem,3vw,2rem)/1.3 var(--story);max-width:36ch}
+.squiggle{display:block;width:90px;height:12px;margin-bottom:.8rem;background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='12' viewBox='0 0 60 12'><path d='M0 6 C8 0 14 0 22 6 S36 12 44 6 S56 0 60 6' fill='none' stroke='%23F08C6E' stroke-width='3' stroke-linecap='round'/></svg>") repeat-x left center / 60px 12px}
+.faq details{border-bottom:2px dashed var(--spine);max-width:46rem}
+.faq details:first-of-type{border-top:2px dashed var(--spine)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;min-height:56px;padding:.9rem 0;font:600 1.15rem/1.3 var(--display)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";display:inline-grid;place-items:center;flex:none;width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);background:var(--sun);color:#263248;font:600 1.1rem/1 var(--display)}
+.faq details[open] summary::after{content:"–";background:var(--glass)}
+.faq details p{margin:0 0 1.25rem;color:var(--muted);max-width:40rem}
+.final{text-align:center;background:var(--page)}
+.final h2,.final .intro{margin-left:auto;margin-right:auto}
+.signup{display:flex;gap:.6rem;flex-wrap:wrap;max-width:31rem}
+.final .signup{margin:0 auto;justify-content:center}
+.signup input[type=email], .signup select{flex:1 1 14rem;min-height:52px;padding:0 1.15rem;font:inherit;color:var(--ink);background:var(--paper);border:2.5px solid var(--ink);border-radius:22px 18px 24px 20px}
+.signup input:focus, .signup select:focus{outline:3px solid var(--sun);outline-offset:2px}
+.signup button{min-height:52px;padding:0 1.5rem;font:600 1.05rem var(--display);color:var(--btn-ink);background:var(--btn);border:2.5px solid var(--btn);border-radius:18px 24px 20px 26px;cursor:pointer;box-shadow:3px 3px 0 var(--coral)}
+.signup button:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--coral)}
+.signup button[disabled]{opacity:.65;cursor:wait}
+.status{flex-basis:100%;margin:.5rem 0 0;min-height:1.6em;font-size:.95rem;color:var(--muted)}
+.status.ok{color:#3E8A5A;font-weight:700}
+.status.err{color:var(--warn);font-weight:700}
+.hp{display:none}
+footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
+
+@media (max-width: 860px){
+  .spread,.flip .spread{grid-template-columns:1fr}
+  .art-page,.flip .art-page{order:0;border:0;border-bottom:2px solid var(--spine)}
+  .steps{grid-template-columns:1fr 1fr}
+  .principles{grid-template-columns:1fr}
+}
+@media (max-width: 520px){.steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="wc" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="3" seed="4" result="n"/>
+      <feDisplacementMap in="SourceGraphic" in2="n" scale="14" result="d"/>
+      <feGaussianBlur in="d" stdDeviation="1.4"/>
+    </filter>
+    <filter id="ink" x="-5%" y="-5%" width="110%" height="110%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="2" seed="9"/>
+      <feDisplacementMap in="SourceGraphic" scale="3"/>
+    </filter>
+    <linearGradient id="dropFill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EAFBFF"/><stop offset="1" stop-color="#62BFD8"/>
+    </linearGradient>
+  </defs>
+</svg>
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Panya home">
+      <svg width="22" height="28" viewBox="0 0 100 130" aria-hidden="true"><g transform="rotate(-12 50 122)"><path d="M50 6 C50 6 12 56 12 84 a38 38 0 0 0 76 0 C88 56 50 6 50 6Z" fill="#8FD8E6" stroke="#263248" stroke-width="7"/><ellipse cx="39" cy="86" rx="6" ry="8.5" fill="#263248"/><ellipse cx="61" cy="86" rx="6" ry="8.5" fill="#263248"/></g></svg>
+      Panya <span lang="th">ปัญญา</span>
+    </a>
+    <a class="nav-cta" href="#join">Join the waitlist</a>
+  </div>
+</header>
+
+<main id="top">
+  <div class="wrap cover">
+    <div class="spread">
+      <div class="page art-page"><svg class="art" viewBox="0 0 600 460" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Cover: Panya, a small curious water drop with rosy cheeks, sits on a rock in a sunrise sea, with a sailboat and seabirds."><defs><linearGradient id="dawn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FCD9C4"/><stop offset=".55" stop-color="#FDEBD3"/><stop offset="1" stop-color="#CFEAF3"/></linearGradient></defs><rect width="600" height="460" fill="url(#dawn)"/><g filter="url(#wc)"><circle cx="440" cy="150" r="58" fill="#FFCB5C" opacity=".85"/><ellipse cx="160" cy="110" rx="90" ry="22" fill="#fff" opacity=".8"/><ellipse cx="230" cy="90" rx="60" ry="16" fill="#fff" opacity=".7"/></g><path d="M0 250 C120 236 220 262 340 248 S520 236 600 250 V460 H0Z" fill="#4FA7C2" filter="url(#wc)"/><path d="M0 300 C140 286 260 312 380 298 S540 290 600 300 V460 H0Z" fill="#2E6F99" filter="url(#wc)" opacity=".85"/><g stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".8"><path d="M70 276 q12 -6 24 0"/><path d="M470 270 q12 -6 24 0"/><path d="M200 330 q12 -6 24 0"/><path d="M380 360 q12 -6 24 0"/></g><g filter="url(#ink)"><path d="M60 238 H114 L104 250 H70Z" fill="#F08C6E" stroke="#263248" stroke-width="2.4" stroke-linejoin="round"/><path d="M87 238 V194" stroke="#263248" stroke-width="2.4"/><path d="M89 198 L112 234 H89Z" fill="#fff" stroke="#263248" stroke-width="2.4" stroke-linejoin="round"/><path d="M500 96 q8 -8 16 0 q8 -8 16 0 M540 70 q6 -6 12 0 q6 -6 12 0" fill="none" stroke="#263248" stroke-width="2.4" stroke-linecap="round"/><path d="M210 372 C220 330 270 312 310 318 C356 324 392 352 386 380 C380 404 230 408 210 372Z" fill="#B9A894" stroke="#263248" stroke-width="3"/><path d="M240 366 q16 -10 30 -4" fill="none" stroke="#263248" stroke-width="2" opacity=".5"/></g><g class="panya" transform="rotate(-6 300 324)"><g transform="translate(100.5 187.2) scale(0.95)"><path d="M210 30 C210 30 176 82 176 110 a34 34 0 0 0 68 0 C244 82 210 30 210 30Z" fill="url(#dropFill)" stroke="#263248" stroke-width="3" vector-effect="non-scaling-stroke" filter="url(#ink)"/><ellipse cx="194" cy="84" rx="5" ry="10" fill="#fff" opacity=".85" transform="rotate(-18 194 84)"/><ellipse cx="189" cy="121" rx="6" ry="3.5" fill="#F6A39C" opacity=".7"/><ellipse cx="231" cy="121" rx="6" ry="3.5" fill="#F6A39C" opacity=".7"/><ellipse cx="200" cy="110" rx="4.3" ry="6" fill="#263248"/><ellipse cx="221" cy="110" rx="4.3" ry="6" fill="#263248"/><circle cx="201.6" cy="107.4" r="1.6" fill="#fff"/><circle cx="222.6" cy="107.4" r="1.6" fill="#fff"/><ellipse cx="211" cy="125" rx="2.6" ry="3.2" fill="#263248"/></g></g><path d="M250 241 Q250 250 259 250 Q250 250 250 259 Q250 250 241 250 Q250 250 250 241Z" fill="#FFCB5C" stroke="#263248" stroke-width="1.5"/><path d="M372 225 Q372 232 379 232 Q372 232 372 239 Q372 232 365 232 Q372 232 372 225Z" fill="#FFCB5C" stroke="#263248" stroke-width="1.5"/><path d="M350 275 Q350 280 355 280 Q350 280 350 285 Q350 280 345 280 Q350 280 350 275Z" fill="#FFCB5C" stroke="#263248" stroke-width="1.5"/><text x="380" y="214" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="26" fill="#263248" text-anchor="start" transform="rotate(-8 380 214)">hello!</text></svg></div>
+      <div class="page words">
+        <p class="tag">A short story about building with AI</p>
+        <h1>AI can build it. Only you can decide if it’s right.</h1>
+        <p class="story">Panya is a learning companion for people new to building with AI. It helps you notice the decisions AI makes along the way, understand what they mean, and develop your own sense of what’s right for what you create.</p>
+        <form class="signup" data-waitlist novalidate>
+        <label class="sr-only" for="email-top">Email address</label>
+        <input id="email-top" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="source" value="hero">
+        <button type="submit">Join the waitlist</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+        <p class="fine">We’ll only email you when Panya is ready to try.</p>
+      </div>
+    </div>
+  </div>
+
+  <section class="chapter" aria-labelledby="chone">
+    <div class="wrap">
+      <div class="spread">
+        <div class="page art-page"><svg class="art" viewBox="0 0 600 460" role="img" aria-label="A cozy seaside desk with a laptop showing a finished app, surrounded by golden sparkles. A handwritten note says: it works!"><rect width="600" height="460" fill="#F7E7CF"/><g filter="url(#wc)" opacity=".55"><ellipse cx="420" cy="120" rx="220" ry="110" fill="#FBEFDD"/><ellipse cx="90" cy="300" rx="140" ry="90" fill="#F3DCC0"/></g><g><rect x="40" y="40" width="170" height="150" rx="8" fill="#CFEAF3" stroke="#263248" stroke-width="3"/><circle cx="160" cy="82" r="18" fill="#FFCB5C" opacity=".9"/><path d="M42 130 C80 120 120 138 208 126 V188 H42Z" fill="#4FA7C2"/><path d="M60 150 q10 -5 20 0 M130 165 q10 -5 20 0" fill="none" stroke="#fff" stroke-width="2"/><path d="M125 42 V188 M42 115 H208" stroke="#263248" stroke-width="3"/></g><g filter="url(#ink)"><path d="M72 292 L128 292 L120 334 L80 334Z" fill="#E59A73" stroke="#263248" stroke-width="3" stroke-linejoin="round"/><path d="M100 292 C90 260 70 250 62 238 M100 292 C102 254 116 236 126 226 M100 292 C112 270 134 262 146 262" fill="none" stroke="#62A273" stroke-width="5" stroke-linecap="round"/></g><path d="M0 334 H600 V460 H0Z" fill="#D9B48A"/><path d="M0 334 H600" stroke="#263248" stroke-width="3"/><g filter="url(#wc)" opacity=".35"><ellipse cx="330" cy="400" rx="260" ry="40" fill="#B98F63"/></g><g><rect x="215" y="150" width="230" height="160" rx="12" fill="#3A4760" stroke="#263248" stroke-width="3"/><rect x="226" y="161" width="208" height="136" rx="5" fill="#FFFDF7"/><rect x="226" y="161" width="208" height="24" fill="#4FA7C2"/><rect x="238" y="196" width="120" height="16" rx="6" fill="#A8DCCF"/><rect x="238" y="220" width="160" height="16" rx="6" fill="#A8DCCF"/><rect x="238" y="244" width="90" height="16" rx="6" fill="#A8DCCF"/><circle cx="408" cy="270" r="13" fill="#FFCB5C" stroke="#263248" stroke-width="2"/><path d="M190 310 H470 L486 330 H174Z" fill="#CBD4DE" stroke="#263248" stroke-width="3" stroke-linejoin="round"/></g><g filter="url(#wc)" opacity=".45"><ellipse cx="330" cy="230" rx="170" ry="120" fill="#FFF3C4"/></g><g filter="url(#ink)"><rect x="516" y="284" width="42" height="50" rx="8" fill="#F08C6E" stroke="#263248" stroke-width="3"/><path d="M558 296 q16 2 14 16 q-2 12 -14 12" fill="none" stroke="#263248" stroke-width="3"/><path d="M528 274 q-6 -10 2 -18 M544 274 q-6 -10 2 -18" fill="none" stroke="#263248" stroke-width="2.4" stroke-linecap="round" opacity=".6"/></g><path d="M204 148 Q204 160 216 160 Q204 160 204 172 Q204 160 192 160 Q204 160 204 148Z" fill="#FFCB5C" stroke="#263248" stroke-width="1.5"/><path d="M458 130 Q458 140 468 140 Q458 140 458 150 Q458 140 448 140 Q458 140 458 130Z" fill="#FFCB5C" stroke="#263248" stroke-width="1.5"/><path d="M470 213 Q470 220 477 220 Q470 220 470 227 Q470 220 463 220 Q470 220 470 213Z" fill="#FFCB5C" stroke="#263248" stroke-width="1.5"/><path d="M190 242 Q190 250 198 250 Q190 250 190 258 Q190 250 182 250 Q190 250 190 242Z" fill="#FFCB5C" stroke="#263248" stroke-width="1.5"/><text x="450" y="110" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="26" fill="#263248" text-anchor="start" transform="rotate(-6 450 110)">it works!</text></svg></div>
+        <div class="page words">
+          <p class="num">Chapter one</p>
+          <h2 id="chone">You build something with AI.</h2>
+          <p class="story">You’re a teacher, and you want an app to track your students’ reading. You describe it, and in minutes there it is. It works on the first try. It feels a little like magic.</p>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  <section class="chapter flip" aria-labelledby="chtwo">
+    <div class="wrap">
+      <div class="spread">
+        <div class="page art-page"><svg class="art" viewBox="0 0 600 460" role="img" aria-label="Beneath the surface: the laptop floats on the water while, underneath, a hidden cable runs down to a box labelled online server."><rect width="600" height="460" fill="#E8F4F2"/><path d="M0 262 C120 250 220 272 340 258 S520 250 600 262 V460 H0Z" fill="#4FA7C2" filter="url(#wc)"/><path d="M0 330 C160 318 300 344 440 328 S560 322 600 330 V460 H0Z" fill="#2E6F99" filter="url(#wc)" opacity=".9"/><g filter="url(#ink)"><path d="M150 262 C150 240 470 240 470 262 C470 284 150 284 150 262Z" fill="#D9B48A" stroke="#263248" stroke-width="3"/><rect x="230" y="120" width="190" height="130" rx="10" fill="#3A4760" stroke="#263248" stroke-width="3"/><rect x="240" y="130" width="170" height="108" rx="4" fill="#FFFDF7"/><rect x="240" y="130" width="170" height="20" fill="#4FA7C2"/><rect x="250" y="160" width="96" height="13" rx="5" fill="#A8DCCF"/><rect x="250" y="180" width="130" height="13" rx="5" fill="#A8DCCF"/><rect x="250" y="200" width="70" height="13" rx="5" fill="#A8DCCF"/><path d="M330 276 C340 320 300 350 360 380 S420 400 430 404" fill="none" stroke="#FFCB5C" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 10"/><rect x="420" y="386" width="96" height="56" rx="8" fill="#FFFDF7" stroke="#263248" stroke-width="3"/><path d="M434 402 h68 M434 414 h68 M434 426 h40" stroke="#263248" stroke-width="2" opacity=".5"/><path d="M96 460 C90 420 110 400 100 360 M120 460 C118 430 132 412 126 380" fill="none" stroke="#62A273" stroke-width="6" stroke-linecap="round"/></g><g transform="translate(200 380) scale(0.9 0.9)" filter="url(#ink)"><path d="M-16 0 C-8 -10 10 -10 16 0 C10 10 -8 10 -16 0Z" fill="#F08C6E" stroke="#263248" stroke-width="2"/><path d="M16 0 L26 -8 L25 8Z" fill="#F08C6E" stroke="#263248" stroke-width="2" stroke-linejoin="round"/><circle cx="-8" cy="-2" r="2" fill="#263248"/></g><g transform="translate(520 320) scale(-0.7 0.7)" filter="url(#ink)"><path d="M-16 0 C-8 -10 10 -10 16 0 C10 10 -8 10 -16 0Z" fill="#F2A9BF" stroke="#263248" stroke-width="2"/><path d="M16 0 L26 -8 L25 8Z" fill="#F2A9BF" stroke="#263248" stroke-width="2" stroke-linejoin="round"/><circle cx="-8" cy="-2" r="2" fill="#263248"/></g><circle cx="250" cy="350" r="4" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".8"/><circle cx="262" cy="330" r="6" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".8"/><circle cx="240" cy="310" r="3" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".8"/><circle cx="470" cy="360" r="4" fill="none" stroke="#FFFFFF" stroke-width="2" opacity=".8"/><text x="468" y="380" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="22" fill="#FFFDF7" text-anchor="middle" transform="rotate(0 468 380)">online server</text><text x="40" y="74" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="24" fill="#263248" text-anchor="start" transform="rotate(-3 40 74)">on the surface: a finished app</text><text x="36" y="312" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="24" fill="#FFFDF7" text-anchor="start" transform="rotate(-3 36 312)">underneath:</text></svg></div>
+        <div class="page words">
+          <p class="num">Chapter two</p>
+          <h2 id="chtwo">But beneath the surface, choices were made.</h2>
+          <p class="story">AI tools make many choices while they build. Most are routine. Some quietly decide who can see your data, or what happens when something goes wrong, and the app looks finished either way.</p>
+        </div>
+      </div>
+      <div class="extra"><p class="extra-label">Here’s how it happens</p><ol class="steps">
+        <li>
+          <p class="step-who">You ask</p>
+          <p class="step-text">“Build an app to track my students’ reading progress.”</p>
+        </li>
+        <li>
+          <p class="step-who">Your AI builds it</p>
+          <p class="step-text">“Done! Your app is ready to use.” It looks great and works on the first try.</p>
+        </li>
+        <li class="hidden-choice">
+          <p class="step-who">What it quietly decided</p>
+          <p class="step-text">Your students’ names and notes are stored on an online server so the app can sync. Nobody asked you.</p>
+        </li>
+        <li class="panya-step">
+          <p class="step-who">You ask Panya “what am I missing?”</p>
+          <p class="step-text">Panya points out where your students’ information went, and offers to think it through with you.</p>
+        </li>
+      </ol></div>
+    </div>
+  </section>
+  <section class="chapter" aria-labelledby="chthree">
+    <div class="wrap">
+      <div class="spread">
+        <div class="page art-page"><svg class="art" viewBox="0 0 600 460" role="img" aria-label="Panya appears on the desk beside the laptop, eyes wide, pointing out a small cloud icon on the screen with a handwritten note: what’s in here?"><rect width="600" height="460" fill="#F7E7CF"/><g filter="url(#wc)" opacity=".55"><ellipse cx="420" cy="120" rx="220" ry="110" fill="#FBEFDD"/><ellipse cx="90" cy="300" rx="140" ry="90" fill="#F3DCC0"/></g><g><rect x="40" y="40" width="170" height="150" rx="8" fill="#CFEAF3" stroke="#263248" stroke-width="3"/><circle cx="160" cy="82" r="18" fill="#FFCB5C" opacity=".9"/><path d="M42 130 C80 120 120 138 208 126 V188 H42Z" fill="#4FA7C2"/><path d="M60 150 q10 -5 20 0 M130 165 q10 -5 20 0" fill="none" stroke="#fff" stroke-width="2"/><path d="M125 42 V188 M42 115 H208" stroke="#263248" stroke-width="3"/></g><g filter="url(#ink)"><path d="M72 292 L128 292 L120 334 L80 334Z" fill="#E59A73" stroke="#263248" stroke-width="3" stroke-linejoin="round"/><path d="M100 292 C90 260 70 250 62 238 M100 292 C102 254 116 236 126 226 M100 292 C112 270 134 262 146 262" fill="none" stroke="#62A273" stroke-width="5" stroke-linecap="round"/></g><path d="M0 334 H600 V460 H0Z" fill="#D9B48A"/><path d="M0 334 H600" stroke="#263248" stroke-width="3"/><g filter="url(#wc)" opacity=".35"><ellipse cx="330" cy="400" rx="260" ry="40" fill="#B98F63"/></g><g><rect x="215" y="150" width="230" height="160" rx="12" fill="#3A4760" stroke="#263248" stroke-width="3"/><rect x="226" y="161" width="208" height="136" rx="5" fill="#FFFDF7"/><rect x="226" y="161" width="208" height="24" fill="#4FA7C2"/><rect x="238" y="196" width="120" height="16" rx="6" fill="#A8DCCF"/><rect x="238" y="220" width="160" height="16" rx="6" fill="#A8DCCF"/><rect x="238" y="244" width="90" height="16" rx="6" fill="#A8DCCF"/><circle cx="408" cy="270" r="13" fill="#FFCB5C" stroke="#263248" stroke-width="2"/><path d="M386 214 a9 9 0 0 1 17 -3 a7 7 0 0 1 9 9 h-26 a6 6 0 0 1 0 -6Z" fill="#fff" stroke="#263248" stroke-width="2"/><ellipse cx="399" cy="213" rx="24" ry="17" fill="none" stroke="#F08C6E" stroke-width="3" stroke-dasharray="6 5"/><path d="M190 310 H470 L486 330 H174Z" fill="#CBD4DE" stroke="#263248" stroke-width="3" stroke-linejoin="round"/></g><g filter="url(#ink)"><rect x="516" y="284" width="42" height="50" rx="8" fill="#F08C6E" stroke="#263248" stroke-width="3"/><path d="M558 296 q16 2 14 16 q-2 12 -14 12" fill="none" stroke="#263248" stroke-width="3"/><path d="M528 274 q-6 -10 2 -18 M544 274 q-6 -10 2 -18" fill="none" stroke="#263248" stroke-width="2.4" stroke-linecap="round" opacity=".6"/></g><g class="panya" transform="rotate(-14 494 334)"><g transform="translate(363.8 244.7) scale(0.62)"><path d="M210 30 C210 30 176 82 176 110 a34 34 0 0 0 68 0 C244 82 210 30 210 30Z" fill="url(#dropFill)" stroke="#263248" stroke-width="3" vector-effect="non-scaling-stroke" filter="url(#ink)"/><ellipse cx="194" cy="84" rx="5" ry="10" fill="#fff" opacity=".85" transform="rotate(-18 194 84)"/><ellipse cx="189" cy="121" rx="6" ry="3.5" fill="#F6A39C" opacity=".7"/><ellipse cx="231" cy="121" rx="6" ry="3.5" fill="#F6A39C" opacity=".7"/><ellipse cx="200" cy="108" rx="5" ry="7" fill="#263248"/><ellipse cx="221" cy="108" rx="5" ry="7" fill="#263248"/><circle cx="201.8" cy="105.5" r="1.8" fill="#fff"/><circle cx="222.8" cy="105.5" r="1.8" fill="#fff"/><ellipse cx="210.5" cy="125" rx="4" ry="5" fill="#263248"/></g></g><text x="392" y="118" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="28" fill="#263248" text-anchor="start" transform="rotate(-5 392 118)">what’s in here?</text><path d="M436 128 C434 150 424 170 414 190" fill="none" stroke="#263248" stroke-width="2.4" stroke-linecap="round"/><path d="M408 182 L413 192 L422 186" fill="none" stroke="#263248" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="page words">
+          <p class="num">Chapter three</p>
+          <h2 id="chthree">That’s when a curious drop turns up.</h2>
+          <p class="story">Panya doesn’t take over. It runs inside the AI tool you build with. Ask it anytime, and it also speaks up when a choice is hard to undo. Your standards, your call, and a way to check the result.</p>
+        </div>
+      </div>
+      <div class="extra extra-convo"><p class="extra-label">Advice at the moment it matters</p><div class="convo" aria-label="Example conversation with Panya">
+        <div class="msg you">
+          <p class="who">You</p>
+          <p class="bubble">What am I missing?</p>
+        </div>
+        <div class="msg panya">
+          <p class="who">Panya</p>
+          <div class="bubble">
+            <p>Your app keeps students’ names and reading notes on an online server, not just on your laptop. That makes syncing possible, but it decides who could see their information.</p>
+            <p class="question">Want to think it through, or keep it as is for now?</p>
+          </div>
+        </div>
+        <div class="msg you">
+          <p class="who">You</p>
+          <p class="bubble">Let’s think. I only use it on my school laptop. I just want to see who needs extra help.</p>
+        </div>
+        <div class="msg panya">
+          <p class="who">Panya</p>
+          <div class="bubble">
+            <p>Then keeping everything on your laptop fits, and students’ names never leave it. The tradeoff: nothing is backed up, so a lost laptop means lost notes. Your school may also have rules about student data, which are worth checking. Whether the tradeoff is OK is your call.</p>
+            <p class="question">How would you feel about losing the notes?</p>
+          </div>
+        </div>
+        <div class="msg you">
+          <p class="who">You</p>
+          <p class="bubble">I’d rather lose notes than risk my students’ privacy. I’ll export a copy each month.</p>
+        </div>
+        <div class="msg handoff">
+          <p class="who note">your decision</p>
+          <ul>
+            <li><strong>Decision:</strong> keep student notes on my laptop only</li>
+            <li><strong>Your reasoning:</strong> “I’d rather lose notes than risk my students’ privacy”</li>
+            <li><strong>Accepted risk:</strong> notes added since the last monthly export are lost if the laptop is</li>
+            <li><strong>Check it works:</strong> turn off Wi-Fi, add a note, reopen the app, and confirm it’s still there</li>
+          </ul>
+        </div>
+      </div></div>
+    </div>
+  </section>
+  <section class="chapter flip" aria-labelledby="chfour">
+    <div class="wrap">
+      <div class="spread">
+        <div class="page art-page"><svg class="art" viewBox="0 0 600 460" role="img" aria-label="A handwritten decision card on the desk: notes stay on my laptop, putting students’ privacy first, accepting no automatic backup. Panya watches from the side."><rect width="600" height="460" fill="#F7E7CF"/><g filter="url(#wc)" opacity=".55"><ellipse cx="420" cy="120" rx="220" ry="110" fill="#FBEFDD"/><ellipse cx="90" cy="300" rx="140" ry="90" fill="#F3DCC0"/></g><g><rect x="40" y="40" width="170" height="150" rx="8" fill="#CFEAF3" stroke="#263248" stroke-width="3"/><circle cx="160" cy="82" r="18" fill="#FFCB5C" opacity=".9"/><path d="M42 130 C80 120 120 138 208 126 V188 H42Z" fill="#4FA7C2"/><path d="M60 150 q10 -5 20 0 M130 165 q10 -5 20 0" fill="none" stroke="#fff" stroke-width="2"/><path d="M125 42 V188 M42 115 H208" stroke="#263248" stroke-width="3"/></g><g filter="url(#ink)"><path d="M72 292 L128 292 L120 334 L80 334Z" fill="#E59A73" stroke="#263248" stroke-width="3" stroke-linejoin="round"/><path d="M100 292 C90 260 70 250 62 238 M100 292 C102 254 116 236 126 226 M100 292 C112 270 134 262 146 262" fill="none" stroke="#62A273" stroke-width="5" stroke-linecap="round"/></g><path d="M0 334 H600 V460 H0Z" fill="#D9B48A"/><path d="M0 334 H600" stroke="#263248" stroke-width="3"/><g filter="url(#wc)" opacity=".35"><ellipse cx="330" cy="400" rx="260" ry="40" fill="#B98F63"/></g><g><rect x="215" y="150" width="230" height="160" rx="12" fill="#3A4760" stroke="#263248" stroke-width="3"/><rect x="226" y="161" width="208" height="136" rx="5" fill="#FFFDF7"/><rect x="226" y="161" width="208" height="24" fill="#4FA7C2"/><rect x="238" y="196" width="120" height="16" rx="6" fill="#A8DCCF"/><rect x="238" y="220" width="160" height="16" rx="6" fill="#A8DCCF"/><rect x="238" y="244" width="90" height="16" rx="6" fill="#A8DCCF"/><circle cx="408" cy="270" r="13" fill="#FFCB5C" stroke="#263248" stroke-width="2"/><path d="M190 310 H470 L486 330 H174Z" fill="#CBD4DE" stroke="#263248" stroke-width="3" stroke-linejoin="round"/></g><g filter="url(#ink)" transform="rotate(-3 300 395)"><rect x="150" y="346" width="310" height="104" rx="6" fill="#FFFDF7" stroke="#263248" stroke-width="3"/><path d="M162 372 H448 M162 398 H448 M162 424 H448" stroke="#A8DCCF" stroke-width="2"/></g><text x="166" y="368" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="19" fill="#263248" text-anchor="start" transform="rotate(-3 166 368)">Decision: notes stay on my laptop</text><text x="166" y="395" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="19" fill="#263248" text-anchor="start" transform="rotate(-3 166 395)">Why: my students’ privacy first</text><text x="166" y="422" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="19" fill="#F08C6E" text-anchor="start" transform="rotate(-3 166 422)">Risk I accept: no automatic backup</text><g filter="url(#ink)"><path d="M478 446 L546 378 L556 388 L488 456 L472 460Z" fill="#FFCB5C" stroke="#263248" stroke-width="2.6" stroke-linejoin="round"/></g><g class="panya" transform="rotate(-8 560 334)"><g transform="translate(471.8 273.5) scale(0.42)"><path d="M210 30 C210 30 176 82 176 110 a34 34 0 0 0 68 0 C244 82 210 30 210 30Z" fill="url(#dropFill)" stroke="#263248" stroke-width="3" vector-effect="non-scaling-stroke" filter="url(#ink)"/><ellipse cx="194" cy="84" rx="5" ry="10" fill="#fff" opacity=".85" transform="rotate(-18 194 84)"/><ellipse cx="189" cy="121" rx="6" ry="3.5" fill="#F6A39C" opacity=".7"/><ellipse cx="231" cy="121" rx="6" ry="3.5" fill="#F6A39C" opacity=".7"/><ellipse cx="200" cy="110" rx="4.3" ry="6" fill="#263248"/><ellipse cx="221" cy="110" rx="4.3" ry="6" fill="#263248"/><circle cx="201.6" cy="107.4" r="1.6" fill="#fff"/><circle cx="222.6" cy="107.4" r="1.6" fill="#fff"/><ellipse cx="211" cy="125" rx="2.6" ry="3.2" fill="#263248"/></g></g></svg></div>
+        <div class="page words">
+          <p class="num">Chapter four</p>
+          <h2 id="chfour">You decide.</h2>
+          <p class="story">AI tools are quick to say “done.” Panya slows down at the moments that matter, so you learn to tell the difference between an app that looks finished and one that’s right for you.</p>
+        </div>
+      </div>
+      <div class="extra"><p class="extra-label">An advisor, not an autopilot</p><div class="principles">
+        <div>
+          <svg class="icon" width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 40 L19 16 L25 16 L27 40 Z" fill="var(--surface)"/><path d="M18 27 L26 27 M18.5 33 L26.5 33"/><rect x="17" y="9" width="10" height="7" rx="2" fill="var(--sun)"/><path d="M16 9 L22 4 L28 9"/><path d="M30 11 L39 8 M30 14 L40 15"/></g></svg>
+          <h3>It speaks up before big choices</h3>
+          <p>When a choice is hard to undo, like where your data lives, who can see what, or adding a paid service, Panya names it in a sentence and offers to think it through. Skip it, and it goes with a sensible default it told you about.</p>
+        </div>
+        <div>
+          <svg class="icon" width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="18" cy="18" r="11" fill="var(--glass)"/><path d="M26 26 L38 38" stroke-width="4"/><path d="M12 15 q3 -5 8 -4"/></g></svg>
+          <h3>Real expertise, honestly labeled</h3>
+          <p>Panya brings engineering, design, and privacy know-how, explained in terms of your app, not just questions. It separates what it has verified from what it’s guessing, and never claims a test passed unless one actually ran.</p>
+        </div>
+        <div>
+          <svg class="icon" width="44" height="44" viewBox="0 0 44 44" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><circle cx="22" cy="22" r="17" fill="var(--surface)"/><path d="M22 9 L26 22 L22 35 L18 22 Z" fill="var(--coral)"/><circle cx="22" cy="22" r="2" fill="currentColor"/></g></svg>
+          <h3>You make the call</h3>
+          <p>Your goals and your standards decide what “good” means. Panya offers advice and evidence, then leaves the decision with you.</p>
+        </div>
+      </div></div>
+    </div>
+  </section>
+  <section class="chapter" aria-labelledby="chfive">
+    <div class="wrap">
+      <div class="spread">
+        <div class="page art-page"><svg class="art" viewBox="0 0 600 460" role="img" aria-label="Next time: a new app on screen, circled by hand, with a sticky note asking who can see this? A tiny Panya smiles from the top of the mug."><rect width="600" height="460" fill="#F7E7CF"/><g filter="url(#wc)" opacity=".55"><ellipse cx="420" cy="120" rx="220" ry="110" fill="#FBEFDD"/><ellipse cx="90" cy="300" rx="140" ry="90" fill="#F3DCC0"/></g><g><rect x="40" y="40" width="170" height="150" rx="8" fill="#CFEAF3" stroke="#263248" stroke-width="3"/><circle cx="160" cy="82" r="18" fill="#FFCB5C" opacity=".9"/><path d="M42 130 C80 120 120 138 208 126 V188 H42Z" fill="#4FA7C2"/><path d="M60 150 q10 -5 20 0 M130 165 q10 -5 20 0" fill="none" stroke="#fff" stroke-width="2"/><path d="M125 42 V188 M42 115 H208" stroke="#263248" stroke-width="3"/></g><g filter="url(#ink)"><path d="M72 292 L128 292 L120 334 L80 334Z" fill="#E59A73" stroke="#263248" stroke-width="3" stroke-linejoin="round"/><path d="M100 292 C90 260 70 250 62 238 M100 292 C102 254 116 236 126 226 M100 292 C112 270 134 262 146 262" fill="none" stroke="#62A273" stroke-width="5" stroke-linecap="round"/></g><path d="M0 334 H600 V460 H0Z" fill="#D9B48A"/><path d="M0 334 H600" stroke="#263248" stroke-width="3"/><g filter="url(#wc)" opacity=".35"><ellipse cx="330" cy="400" rx="260" ry="40" fill="#B98F63"/></g><g><rect x="215" y="150" width="230" height="160" rx="12" fill="#3A4760" stroke="#263248" stroke-width="3"/><rect x="226" y="161" width="208" height="136" rx="5" fill="#FFFDF7"/><rect x="226" y="161" width="208" height="24" fill="#F08C6E"/><rect x="238" y="196" width="90" height="56" rx="6" fill="#F2A9BF" opacity=".6"/><rect x="338" y="196" width="84" height="56" rx="6" fill="#A8DCCF"/><rect x="238" y="262" width="184" height="14" rx="5" fill="#E8EEF2"/><path d="M190 310 H470 L486 330 H174Z" fill="#CBD4DE" stroke="#263248" stroke-width="3" stroke-linejoin="round"/></g><g filter="url(#ink)"><rect x="516" y="284" width="42" height="50" rx="8" fill="#F08C6E" stroke="#263248" stroke-width="3"/><path d="M558 296 q16 2 14 16 q-2 12 -14 12" fill="none" stroke="#263248" stroke-width="3"/><path d="M528 274 q-6 -10 2 -18 M544 274 q-6 -10 2 -18" fill="none" stroke="#263248" stroke-width="2.4" stroke-linecap="round" opacity=".6"/></g><g filter="url(#ink)" transform="rotate(6 470 190)"><rect x="420" y="150" width="104" height="80" fill="#FFCB5C" stroke="#263248" stroke-width="2.6"/></g><text x="430" y="182" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="21" fill="#263248" text-anchor="start" transform="rotate(6 430 182)">who can see</text><text x="432" y="206" font-family="Caveat, 'Comic Sans MS', cursive" font-weight="600" font-size="21" fill="#263248" text-anchor="start" transform="rotate(6 432 206)">this?</text><ellipse cx="330" cy="224" rx="104" ry="40" fill="none" stroke="#F08C6E" stroke-width="3" filter="url(#ink)"/><g class="panya" transform="rotate(0 548 288)"><g transform="translate(489.2 247.7) scale(0.28)"><path d="M210 30 C210 30 176 82 176 110 a34 34 0 0 0 68 0 C244 82 210 30 210 30Z" fill="url(#dropFill)" stroke="#263248" stroke-width="3" vector-effect="non-scaling-stroke" filter="url(#ink)"/><ellipse cx="194" cy="84" rx="5" ry="10" fill="#fff" opacity=".85" transform="rotate(-18 194 84)"/><ellipse cx="189" cy="121" rx="6" ry="3.5" fill="#F6A39C" opacity=".7"/><ellipse cx="231" cy="121" rx="6" ry="3.5" fill="#F6A39C" opacity=".7"/><path d="M195 111 q5 -6 10 0 M216 111 q5 -6 10 0" fill="none" stroke="#263248" stroke-width="3.2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="M203 122 q7 7 14 0" fill="none" stroke="#263248" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"/></g></g><path d="M574 242 Q574 248 580 248 Q574 248 574 254 Q574 248 568 248 Q574 248 574 242Z" fill="#FFCB5C" stroke="#263248" stroke-width="1.5"/></svg></div>
+        <div class="page words">
+          <p class="num">Chapter five</p>
+          <h2 id="chfive">Next time, you spot it first.</h2>
+          <p class="story">A new app, a new choice, and this time you’re the one asking the question. Panya just smiles. Its support steps back as your judgment grows, and it was always meant to be a mentor you outgrow.</p>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+  <section class="chapter flip" aria-labelledby="chsix">
+    <div class="wrap">
+      <div class="spread">
+        <div class="page art-page"><svg class="art" viewBox="0 0 600 460" role="img" aria-label="Panya sits happily on a windowsill at sunset, the sea glowing beyond the window."><defs><linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F7B9A6"/><stop offset=".5" stop-color="#FCDDBE"/><stop offset="1" stop-color="#9ED6DA"/></linearGradient></defs><rect width="600" height="460" fill="#F7E7CF"/><g filter="url(#ink)"><rect x="60" y="34" width="480" height="320" rx="12" fill="url(#dusk)" stroke="#263248" stroke-width="3"/></g><g filter="url(#wc)"><circle cx="300" cy="230" r="66" fill="#FFCB5C" opacity=".85"/></g><path d="M62 236 C180 226 300 246 420 232 S520 228 538 234 V352 H62Z" fill="#4FA7C2" filter="url(#wc)"/><g stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" opacity=".85"><path d="M260 262 h80 M240 284 h120 M270 306 h60"/></g><g filter="url(#ink)"><path d="M300 36 V352 M62 194 H538" stroke="#263248" stroke-width="3" opacity=".9"/><path d="M40 352 H560 V384 H40Z" fill="#D9B48A" stroke="#263248" stroke-width="3"/></g><g class="panya" transform="rotate(0 170 352)"><g transform="translate(54.5 272.8) scale(0.55)"><path d="M210 30 C210 30 176 82 176 110 a34 34 0 0 0 68 0 C244 82 210 30 210 30Z" fill="url(#dropFill)" stroke="#263248" stroke-width="3" vector-effect="non-scaling-stroke" filter="url(#ink)"/><ellipse cx="194" cy="84" rx="5" ry="10" fill="#fff" opacity=".85" transform="rotate(-18 194 84)"/><ellipse cx="189" cy="121" rx="6" ry="3.5" fill="#F6A39C" opacity=".7"/><ellipse cx="231" cy="121" rx="6" ry="3.5" fill="#F6A39C" opacity=".7"/><path d="M195 111 q5 -6 10 0 M216 111 q5 -6 10 0" fill="none" stroke="#263248" stroke-width="3.2" stroke-linecap="round" vector-effect="non-scaling-stroke"/><path d="M203 122 q7 7 14 0" fill="none" stroke="#263248" stroke-width="3" stroke-linecap="round" vector-effect="non-scaling-stroke"/></g></g><path d="M206 293 Q206 300 213 300 Q206 300 206 307 Q206 300 199 300 Q206 300 206 293Z" fill="#FFCB5C" stroke="#263248" stroke-width="1.5"/><path d="M130 291 Q130 296 135 296 Q130 296 130 301 Q130 296 125 296 Q130 296 130 291Z" fill="#FFCB5C" stroke="#263248" stroke-width="1.5"/><path d="M0 384 H600 V460 H0Z" fill="#EAD2B2"/></svg></div>
+        <div class="page words">
+          <p class="num">Chapter six</p>
+          <h2 id="chsix">The wisdom is yours.</h2>
+          <p class="story">Panya (<span lang="th" class="th">ปัญญา</span>) means wisdom in Thai. Not the AI’s wisdom. Yours, growing a little with every decision you make.</p>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+  <section class="who-for">
+    <div class="wrap">
+      <h2>You don’t have to become a programmer</h2>
+      <p class="intro">Just understand enough to make the calls that matter: where your data lives, who can see it, and what happens if it’s lost. Panya builds on what you already know and fills in what you don’t.</p>
+      <ul>
+        <li>Designers</li><li>Product managers and founders</li><li>Domain experts</li><li>People learning to build with AI</li><li>Anyone building tools for their own work</li>
+      </ul>
+      <blockquote><span class="squiggle" aria-hidden="true"></span>If you’ve ever finished a build and wondered what the AI decided on your behalf, Panya is for you.</blockquote>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="wrap">
+      <h2>Common questions</h2>
+      <details open>
+        <summary>How is this different from the AI tools I already use?</summary>
+        <p>Panya isn’t a separate tool. It’s an advisory mode that runs inside them, such as Claude, Claude Code, Cursor, or VS Code. Those tools focus on output; Panya focuses on your judgment. It won’t make consequential choices for you, it labels what it has verified versus guessed, and it steps back as your judgment grows.</p>
+      </details>
+      <details>
+        <summary>Will this slow me down?</summary>
+        <p>Only where it counts. Panya stays quiet on routine work, and when it speaks up you can skip the conversation and go with a default it tells you about. The exception is a serious risk, like losing data or exposing someone’s private information: Panya always says so plainly, and the call is still yours.</p>
+      </details>
+      <details>
+        <summary>What does it save about me?</summary>
+        <p>Only with your permission, Panya keeps a log of your decisions and a short profile of which topics you know well and how you like things explained, as files in your own project. You can read, edit, or delete them at any time.</p>
+      </details>
+      <details>
+        <summary>When can I try it?</summary>
+        <p>Panya is an early prototype from a Stanford Learning Design &amp; Technology capstone. We’re inviting people from the waitlist in small groups to try it on real decisions and share feedback.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="final" id="join">
+    <div class="wrap">
+      <h2>Be one of the first to try Panya</h2>
+      <p class="intro">We’re inviting a small group of early builders to try Panya and help shape it.</p>
+      <form class="signup" data-waitlist novalidate>
+        <label class="sr-only" for="email-bottom">Email address</label>
+        <input id="email-bottom" type="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+        <label class="sr-only" for="role">What best describes you? (optional)</label>
+        <select id="role" name="role">
+          <option value="">What best describes you? (optional)</option>
+          <option>Designer</option><option>Teacher or educator</option><option>Founder</option>
+          <option>Product manager</option><option>Domain expert building my own tools</option>
+          <option>Developer or engineer</option><option>Student or learning to code</option><option>Other</option>
+        </select>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input type="hidden" name="source" value="footer">
+        <button type="submit">Join the waitlist</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">© 2026 Panya</div></footer>
+
+<script>
+  // Paste your Formspree form ID here (from formspree.io → your form → Integration).
+  const FORM_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
+  document.querySelectorAll("form[data-waitlist]").forEach(function (form) {
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      const status = form.querySelector(".status");
+      const button = form.querySelector("button");
+      const email = form.querySelector("input[type=email]");
+      status.className = "status";
+
+      if (!email.value || !email.checkValidity()) {
+        status.textContent = "Enter a valid email address, like you@example.com.";
+        status.classList.add("err");
+        email.focus();
+        return;
+      }
+      if (FORM_ENDPOINT.indexOf("YOUR_FORM_ID") !== -1) {
+        status.textContent = "The waitlist isn’t connected yet. Add your Formspree form ID in index.html.";
+        status.classList.add("err");
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Joining…";
+      try {
+        const res = await fetch(FORM_ENDPOINT, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" }
+        });
+        if (!res.ok) throw new Error("Request failed");
+        form.reset();
+        status.textContent = "You’re on the waitlist. We’ll email you when Panya is ready to try.";
+        status.classList.add("ok");
+      } catch (err) {
+        status.textContent = "Couldn’t join the waitlist. Check your connection and try again.";
+        status.classList.add("err");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Join the waitlist";
+      }
+    });
+  });
+</script>
+</body>
+</html>
