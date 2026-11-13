@@ -5,32 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Privacy · Panya</title>
 <meta name="description" content="How Panya handles the information you share when you join the waitlist.">
+<meta name="theme-color" content="#0C1A16">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <style>
-@font-face{font-family:"Fredoka";src:url(fonts/fredoka.woff2) format("woff2");font-weight:500 600;font-display:swap}
-@font-face{font-family:"Young Serif";src:url(fonts/young-serif.woff2) format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"Atkinson Hyperlegible";src:url(fonts/atkinson-regular.woff2) format("woff2");font-weight:400;font-display:swap}
-@font-face{font-family:"Atkinson Hyperlegible";src:url(fonts/atkinson-bold.woff2) format("woff2");font-weight:700;font-display:swap}
-:root{color-scheme:light;--paper:#EEF4EF;--page:#FFFDF7;--ink:#263248;--muted:#536072;--spine:#D8C9B2}
-@media (prefers-color-scheme: dark){:root{color-scheme:dark;--paper:#152234;--page:#1E2E43;--ink:#F2E9D8;--muted:#C6BEB0;--spine:#2B3E56}}
+@font-face{font-family:"Alegreya";src:url(fonts/alegreya.woff2) format("woff2");font-weight:400 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Alegreya";src:url(fonts/alegreya-italic.woff2) format("woff2");font-weight:400 900;font-style:italic;font-display:swap}
+@font-face{font-family:"Anuphan";src:url(fonts/anuphan.woff2) format("woff2");font-weight:100 700;font-display:swap}
+:root{color-scheme:light;--paper:#ECE8DC;--card:#F5F2EA;--ink:#16233F;--muted:#4C5873;--line:#CFC8B8;--night:#0C1A16;--nline:#24443A;--moon:#F3EBDC;--amber:#F6B85A}
+@media (prefers-color-scheme: dark){:root{color-scheme:dark;--paper:#1C2A4A;--card:#24365C;--ink:#F3EBDC;--muted:#C8D2E6;--line:#34497A}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.7 "Atkinson Hyperlegible","Segoe UI",Roboto,Arial,sans-serif}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.7 "Anuphan","Segoe UI",Roboto,Arial,sans-serif}
 a{color:inherit}
-:focus-visible{outline:3px solid #F08C6E;outline-offset:3px;border-radius:6px}
+:focus-visible{outline:3px solid var(--amber);outline-offset:3px;border-radius:6px}
 .wrap{max-width:44rem;margin:0 auto;padding:0 1.5rem}
-header{padding:1.4rem 0}
-.logo{font:600 1.5rem/1 "Fredoka","Trebuchet MS",sans-serif;text-decoration:none}
-main{background:var(--page);border-radius:12px;padding:clamp(1.5rem,4vw,3rem);margin-bottom:3rem;box-shadow:0 1px 0 var(--spine)}
-h1{font:400 clamp(1.9rem,4vw,2.5rem)/1.15 "Young Serif",Georgia,serif;margin:0 0 .5rem}
-h2{font:600 1.2rem/1.3 "Fredoka","Trebuchet MS",sans-serif;margin:2rem 0 .4rem}
-p,li{color:var(--muted)}
+header{background:var(--night);border-bottom:1px solid var(--nline);color:var(--moon)}
+header .wrap{padding-top:.9rem;padding-bottom:.9rem}
+.logo{display:inline-flex;align-items:center;gap:.5rem;font:500 1.5rem/1 "Alegreya",Georgia,serif;font-style:italic;text-decoration:none}
+main{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:clamp(1.5rem,4vw,3rem);margin:2rem auto 3rem}
+h1{font:500 clamp(1.9rem,4vw,2.5rem)/1.15 "Alegreya",Georgia,serif;margin:0 0 .5rem}
+h2{font:500 1.3rem/1.3 "Alegreya",Georgia,serif;font-style:italic;margin:2rem 0 .4rem}
+p{color:var(--muted);margin:0 0 .6rem}
 .updated{margin:0 0 1.5rem;font-size:.95rem}
 </style>
 </head>
 <body>
+<header><div class="wrap"><a class="logo" href="index.html"><svg width="26" height="26" viewBox="0 0 44 44" aria-hidden="true"><defs><radialGradient id="ff"><stop offset="0" stop-color="#F7FFD6"/><stop offset=".28" stop-color="#E3FA8E" stop-opacity=".95"/><stop offset=".62" stop-color="#D4F56A" stop-opacity=".22"/><stop offset="1" stop-color="#D4F56A" stop-opacity="0"/></radialGradient></defs><circle cx="22" cy="15" r="13" fill="url(#ff)"/><circle cx="22" cy="15" r="4.6" fill="#F7FFD6"/><path d="M7 27.5 H37" stroke="#BFD3C6" stroke-width="1.6" stroke-linecap="round" opacity=".7"/><circle cx="22" cy="36" r="8.5" fill="url(#ff)" opacity=".35"/></svg>← Panya</a></div></header>
 <div class="wrap">
-  <header><a class="logo" href="index.html">← Panya</a></header>
   <main>
     <h1>How we handle your data</h1>
     <p class="updated">Last updated November 2026</p>
@@ -46,7 +47,7 @@ p,li{color:var(--muted)}
     <p>Early users may be invited to share feedback as part of the capstone. Joining the waitlist doesn’t sign you up for any study. We’ll always ask for your consent first, and you can say no.</p>
 
     <h2>Who else handles it</h2>
-    <p>Sign-ups are collected through Formspree, a form service that stores submissions on our behalf. This site is hosted on GitHub Pages.</p>
+    <p>Sign-ups are collected through Formspree, a form service that stores submissions on our behalf. This site is hosted on GitHub Pages. Its fonts are hosted on the site itself, so no font service sees your visit.</p>
 
     <h2>How long we keep it</h2>
     <p>Until the project ends or you ask us to delete it, whichever comes first.</p>
