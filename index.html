@@ -14,8 +14,8 @@
 @font-face{font-family:"Alegreya";src:url(fonts/alegreya.woff2) format("woff2");font-weight:400 900;font-style:normal;font-display:swap}
 @font-face{font-family:"Alegreya";src:url(fonts/alegreya-italic.woff2) format("woff2");font-weight:400 900;font-style:italic;font-display:swap}
 @font-face{font-family:"Anuphan";src:url(fonts/anuphan.woff2) format("woff2");font-weight:100 700;font-display:swap}
-@font-face{font-family:"Mali";src:url(fonts/mali.woff2) format("woff2");font-weight:600;font-display:swap}
-@font-face{font-family:"Charm";src:url(fonts/charm-panya.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Charm";src:url(fonts/charm-latin.woff2) format("woff2");font-weight:700;font-display:swap;unicode-range:U+0000-00FF,U+2013-2014,U+2018-201A,U+201C-201E,U+2026}
+@font-face{font-family:"Charm";src:url(fonts/charm-panya.woff2) format("woff2");font-weight:700;font-display:swap;unicode-range:U+0E00-0E7F}
 :root{
   color-scheme: light;
   /* Night: the same in light and dark mode */
@@ -27,7 +27,7 @@
   --paper:#ECE8DC; --card:#F5F2EA; --ink:#16233F; --muted:#4C5873; --line:#CFC8B8; --accent:#A33A2C; --warn:#9A3D12; --ok:#2F5A3A;
   --display:"Alegreya", Georgia, "Times New Roman", serif;
   --body:"Anuphan", "Segoe UI", Roboto, Arial, sans-serif;
-  --hand:"Mali", "Comic Sans MS", cursive;
+  --hand:"Charm", Georgia, serif;
   --mark:"Charm", Tahoma, serif;
   --ease:cubic-bezier(.3,.6,.2,1);
 }
@@ -59,7 +59,7 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 .night{color:var(--moon)}
 .night p.story{color:var(--mist)}
 .chapter{padding:clamp(3rem,7vw,5rem) 0;content-visibility:auto;contain-intrinsic-size:auto 760px}
-.num{font:600 1.15rem/1.2 var(--hand);color:var(--firefly);margin:0 0 .7rem}
+.num{font:700 1.3rem/1.2 var(--hand);color:var(--firefly);margin:0 0 .7rem}
 .chapter h2{font:500 clamp(1.8rem,3.4vw,2.6rem)/1.12 var(--display);margin:0 0 1rem}
 .story{font:400 1.12rem/1.7 var(--body);margin:0 0 1rem;max-width:34rem}
 .spread{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(1.5rem,4vw,3.5rem);align-items:center}
@@ -70,7 +70,7 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 
 /* Cover */
 .cover{background:var(--deep);color:var(--moon);padding-top:clamp(2.5rem,6vw,4.5rem)}
-.tag{font:600 1.1rem/1.3 var(--hand);color:var(--firefly);margin:0 0 .9rem}
+.tag{font:700 1.3rem/1.3 var(--hand);color:var(--firefly);margin:0 0 .9rem}
 .cover h1{font:500 clamp(2.4rem,6vw,4.4rem)/1.04 var(--display);max-width:16ch;margin:0 0 1.1rem}
 .lede{font:600 1.2rem/1.45 var(--body);margin:0 0 .8rem;max-width:36rem}
 .cover .story{color:var(--mist)}
@@ -97,8 +97,7 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 .c1{background:var(--evening)}
 .c2{background:var(--canal)}
 .c3{background:var(--deep)}
-.c4{background:#050D0A;text-align:center}
-.c4 .story{margin-left:auto;margin-right:auto}
+.c4{background:#050D0A}
 .wide-art{display:block;width:100%;height:auto;margin:0 0 2.2rem}
 .c2 .words{display:grid;grid-template-columns:1fr 1.15fr;gap:0 clamp(1.5rem,4vw,3.5rem);align-items:start}
 .c2 .words h2{margin-bottom:0}
@@ -112,7 +111,7 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 .js .silt.settled .grain{transform:translateY(var(--d));opacity:.35}
 
 /* Interactions (progressive enhancement) */
-.prompt{font:600 1.15rem/1.3 var(--hand);color:var(--moon);margin:.75rem 0 .7rem}
+.prompt{font:700 1.35rem/1.3 var(--hand);color:var(--moon);margin:.75rem 0 .7rem}
 .choices,.reply{display:flex;flex-wrap:wrap;gap:.6rem}
 .choice{min-height:48px;padding:.55rem 1.15rem;font:600 1rem/1.3 var(--body);color:var(--moon);background:transparent;border:1.5px solid #3E6A5C;border-radius:14px;cursor:pointer;text-align:left}
 .choice:hover{background:var(--ncard)}
@@ -138,16 +137,16 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 .msg p{margin:0}
 .you{align-self:flex-end}
 .you > .who{text-align:right}
-.you .bubble{background:var(--amber);color:var(--ink-fixed);padding:.85rem 1.05rem;border-radius:16px 16px 4px 16px;font:600 1.02rem/1.5 var(--hand)}
+.you .bubble{background:var(--amber);color:var(--ink-fixed);padding:.85rem 1.05rem;border-radius:16px 16px 4px 16px;font:700 1.12rem/1.5 var(--hand)}
 .panya .bubble{background:var(--ncard);border:1px solid var(--nline);color:var(--moon);padding:.9rem 1.05rem;border-radius:16px 16px 16px 4px}
 .question{font:500 1.12rem/1.35 var(--display);font-style:italic;margin-top:.45rem !important}
 .handoff{align-self:stretch;max-width:100%;border:1.5px dashed var(--firefly);border-radius:14px;padding:.85rem 1.1rem;background:#12261F;color:var(--moon)}
-.handoff .note{font:600 1.05rem/1.2 var(--hand);color:var(--firefly);letter-spacing:0;text-transform:none}
+.handoff .note{font:700 1.2rem/1.2 var(--hand);color:var(--firefly);letter-spacing:0;text-transform:none}
 .handoff ul{list-style:none;margin:.35rem 0 0;padding:0;font-size:.96rem}
 .handoff li + li{margin-top:.3rem}
 
 /* Chapter four: the decision card */
-.card-dec{display:inline-block;text-align:left;margin-top:.6rem;padding:1rem 1.25rem;border:1.5px dashed var(--firefly);border-radius:12px;background:#0F211B;font:600 1.12rem/1.6 var(--hand);color:var(--moon);transform:rotate(-.6deg);max-width:100%}
+.card-dec{display:inline-block;text-align:left;margin-top:.6rem;padding:1rem 1.25rem;border:1.5px dashed var(--firefly);border-radius:12px;background:#0F211B;font:700 1.25rem/1.6 var(--hand);color:var(--moon);transform:rotate(-.6deg);max-width:100%}
 .card-dec .risk{color:var(--amber)}
 .card-dec span{display:block}
 
@@ -163,7 +162,7 @@ header .wrap{display:flex;align-items:center;justify-content:space-between;gap:1
 section.who-for,section.faq,section.final{padding:4rem 0}
 .day h2{font:500 clamp(1.8rem,3.4vw,2.5rem)/1.15 var(--display);margin:0 0 1rem;max-width:24ch}
 .intro{color:var(--muted);max-width:38rem;margin:0 0 2rem;font-size:1.1rem}
-.who-label{font:600 1.1rem/1.2 var(--hand);color:var(--accent);margin:0 0 .6rem}
+.who-label{font:700 1.3rem/1.2 var(--hand);color:var(--accent);margin:0 0 .6rem}
 .who-for ul{list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:.35rem 0;max-width:46rem;font:600 1.1rem/1.5 var(--body)}
 .who-for li{display:flex;align-items:center}
 .who-for li:not(:last-child)::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);margin:0 .8rem}
@@ -212,12 +211,13 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
   .wide-art.silt{height:auto}
   .note-lg{font-size:34px}
   .label{font-size:46px}
+  .label-top{font-size:40px}
 }
 @media (max-width: 520px){
   .wrap{padding:0 1rem}
   .story{font-size:1.03rem}
   .logo{font-size:1.35rem}
-  .logo .th{display:none}
+  .logo .th{font-size:.9rem}
   .msg{max-width:96%}
 }
 </style>
@@ -286,19 +286,29 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
 
   <section class="chapter night c1" aria-labelledby="chone">
     <div class="wrap spread">
-      <svg class="art" viewBox="0 0 600 440" role="img" aria-label="Evening on the canal: a laptop sits on a wooden dock, its screen showing a finished app. The sky fades from purple to rose, and a few fireflies are waking up. A handwritten note says: it works!">
-        <rect width="600" height="262" fill="url(#evesky)"/>
-        <g filter="url(#gouache)"><path d="M0 252 C120 248 240 254 380 250 S520 248 600 252 V264 H0Z" fill="#0A1410"/></g>
-        <rect y="262" width="600" height="178" fill="url(#nwater)"/>
-        <rect y="262" width="600" height="26" fill="#8A6476" opacity=".16"/>
-        <g filter="url(#press)" fill="#140F0A"><rect x="110" y="312" width="380" height="12"/><rect x="140" y="324" width="8" height="70"/><rect x="290" y="324" width="8" height="70"/><rect x="450" y="324" width="8" height="70"/></g>
-        <path d="M230 304 H370 L384 312 H216Z" fill="#2A3B36"/>
-        <rect x="236" y="236" width="128" height="70" rx="6" fill="#2A3B36"/>
-        <rect x="243" y="243" width="114" height="56" rx="3" fill="#F3EBDC"/>
-        <rect x="251" y="252" width="64" height="8" rx="3" fill="#8FB8A8"/><rect x="251" y="266" width="88" height="8" rx="3" fill="#8FB8A8"/><rect x="251" y="280" width="46" height="8" rx="3" fill="#8FB8A8"/>
-        <path d="M300 336 V380" stroke="#F3EBDC" stroke-width="4" stroke-dasharray="3 7" opacity=".1"/>
-        <circle class="wake" cx="118" cy="176" r="8" fill="url(#ffly)"/><circle class="wake w2" cx="486" cy="150" r="7" fill="url(#ffly)"/><circle class="wake w3" cx="534" cy="222" r="6" fill="url(#ffly)"/>
-        <text class="note-lg" x="392" y="214" font-family="Mali, 'Comic Sans MS', cursive" font-weight="600" font-size="26" fill="#F3EBDC" transform="rotate(-6 392 214)">it works!</text>
+      <svg class="art" viewBox="0 0 600 440" role="img" aria-label="Evening at home: a wooden desk inside a teak-walled Thai house. On the desk are a laptop showing a finished app, a stack of books and a celadon tea cup. Through the open wooden shutters, the canal outside is getting dark and a few fireflies are waking. A sticky note on the wall says: it works!">
+        <rect width="600" height="440" fill="#4A2E1C"/>
+        <g filter="url(#gouache)" opacity=".55"><path d="M40 0 V440 M100 0 V440 M160 0 V440 M220 0 V440 M280 0 V440 M560 0 V440" stroke="#3A2416" stroke-width="5"/><ellipse cx="160" cy="250" rx="220" ry="160" fill="#5C3A24"/></g>
+        <g filter="url(#gouache)">
+          <rect x="322" y="70" width="216" height="176" fill="#16242E"/>
+          <rect x="322" y="70" width="216" height="70" fill="#3E3A55"/>
+          <rect x="322" y="140" width="216" height="36" fill="#6B5571" opacity=".7"/>
+          <rect x="322" y="176" width="216" height="70" fill="#14302A"/>
+          <path d="M336 200 C380 196 420 204 470 198" stroke="#24406E" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M380 224 C430 220 480 228 524 222" stroke="#1B3A30" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M322 70 L276 86 V260 L322 246Z" fill="#5C3A22"/><path d="M538 70 L584 86 V260 L538 246Z" fill="#5C3A22"/>
+        </g>
+        <rect x="322" y="70" width="216" height="176" fill="none" stroke="#2A190F" stroke-width="6"/>
+        <path d="M430 70 V246" stroke="#2A190F" stroke-width="5"/>
+        <circle class="wake" cx="372" cy="150" r="7" fill="url(#ffly)"/><circle class="wake w2" cx="470" cy="128" r="6" fill="url(#ffly)"/><circle class="wake w3" cx="506" cy="168" r="5.5" fill="url(#ffly)"/>
+        <g filter="url(#gouache)"><rect x="62" y="74" width="112" height="84" fill="#F6E7A8" transform="rotate(-4 118 116)"/></g>
+        <text class="note-lg" x="76" y="124" font-family="Charm, Georgia, serif" font-weight="700" font-size="26" fill="#16233F" transform="rotate(-4 118 116)">it works!</text>
+        <g filter="url(#gouache)"><rect x="20" y="300" width="560" height="20" fill="#6B4428"/><rect x="60" y="318" width="14" height="122" fill="#5A3A22"/><rect x="526" y="318" width="14" height="122" fill="#5A3A22"/></g>
+        <ellipse cx="200" cy="250" rx="130" ry="80" fill="#F3EBDC" opacity=".06"/>
+        <path d="M104 294 H292 L306 300 H90Z" fill="#2A3B36"/>
+        <rect x="112" y="200" width="172" height="96" rx="6" fill="#2A3B36"/>
+        <rect x="120" y="208" width="156" height="80" rx="3" fill="#F3EBDC"/>
+        <rect x="130" y="220" width="84" height="9" rx="3" fill="#8FB8A8"/><rect x="130" y="236" width="116" height="9" rx="3" fill="#8FB8A8"/><rect x="130" y="252" width="62" height="9" rx="3" fill="#8FB8A8"/><circle cx="252" cy="270" r="9" fill="#D9A13B"/>
+        <g filter="url(#gouache)"><rect x="340" y="282" width="110" height="18" fill="#1E3566"/><rect x="348" y="266" width="98" height="16" fill="#A33A2C"/><rect x="342" y="252" width="104" height="14" fill="#D9A13B"/><path d="M478 270 H520 L514 298 H484Z" fill="#9CBFA0"/></g>
       </svg>
       <div class="words">
         <p class="num">Chapter one</p>
@@ -310,19 +320,21 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
 
   <section class="chapter night c2" aria-labelledby="chtwo">
     <div class="wrap">
-      <svg class="wide-art silt reveal-scene" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Beneath the surface: a side view of the canal. The laptop sits on a dock above the water. Under the cloudy water, a glowing cable runs from the laptop down to a box on the canal bed labeled online server.">
-        <rect width="1200" height="92" fill="#0C1A16"/>
-        <circle cx="1040" cy="40" r="7" fill="url(#ffly)" class="wake"/><circle cx="1120" cy="62" r="6" fill="url(#ffly)" class="wake w3"/>
-        <rect y="92" width="1200" height="328" fill="#123129"/>
-        <path d="M0 92 H1200" stroke="#2E5A4E" stroke-width="2"/>
-        <g filter="url(#gouache)"><path d="M0 380 C160 370 320 388 520 378 S880 366 1200 380 V420 H0Z" fill="#1E2C20"/></g>
-        <g fill="#2A1E14"><rect x="80" y="80" width="300" height="10"/><rect x="110" y="90" width="9" height="300"/><rect x="340" y="90" width="9" height="300"/></g>
-        <rect x="186" y="44" width="80" height="36" rx="4" fill="#2A3B36"/><rect x="192" y="49" width="68" height="25" rx="2" fill="#F3EBDC"/>
-        <path d="M246 82 C300 150 280 250 520 304 S860 350 930 358" fill="none" stroke="#D4F56A" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"/>
-        <rect x="920" y="334" width="160" height="54" rx="6" fill="#F3EBDC"/><path d="M936 350 h128 M936 362 h128 M936 374 h80" stroke="#0C1A16" stroke-width="2.5" opacity=".4"/>
-        <text class="label" x="1000" y="320" font-family="Mali, 'Comic Sans MS', cursive" font-weight="600" font-size="30" fill="#D4F56A" text-anchor="middle">online server</text>
+      <svg class="wide-art silt reveal-scene" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Beneath the surface: on top of the water sits your finished app. Under the cloudy water, a glowing cable runs from the app down to a box on the riverbed labeled online server.">
+        <rect width="1200" height="110" fill="url(#nsky)"/>
+        <g fill="#F3EBDC" opacity=".7"><circle cx="520" cy="30" r="1.2"/><circle cx="700" cy="60" r="1"/><circle cx="1100" cy="34" r="1.3"/></g>
+        <circle class="wake" cx="980" cy="56" r="7" fill="url(#ffly)"/><circle class="wake w3" cx="1060" cy="76" r="6" fill="url(#ffly)"/>
+        <rect y="110" width="1200" height="310" fill="#123129"/>
+        <g filter="url(#gouache)" fill="none" stroke-linecap="round"><path d="M0 112 C300 106 600 116 900 110 S1100 108 1200 112" stroke="#2E5A4E" stroke-width="4"/><path d="M60 150 C220 144 360 156 520 150" stroke="#1B3A30" stroke-width="6"/><path d="M640 190 C800 184 960 196 1140 188" stroke="#1B3A30" stroke-width="7"/></g>
+        <g filter="url(#gouache)"><path d="M0 384 C160 376 320 390 520 382 S880 372 1200 384 V420 H0Z" fill="#1E2C20"/></g>
+        <rect x="150" y="56" width="180" height="56" rx="8" fill="#F3EBDC"/>
+        <rect x="164" y="70" width="80" height="8" rx="3" fill="#8FB8A8"/><rect x="164" y="84" width="112" height="8" rx="3" fill="#8FB8A8"/><circle cx="306" cy="92" r="8" fill="#D9A13B"/>
+        <text class="label-top" x="350" y="80" font-family="Charm, Georgia, serif" font-weight="700" font-size="26" fill="#F3EBDC">on the surface: your app</text>
+        <path d="M240 114 C290 190 280 270 520 312 S860 352 930 360" fill="none" stroke="#D4F56A" stroke-width="4" stroke-dasharray="2 10" stroke-linecap="round"/>
+        <rect x="920" y="336" width="160" height="54" rx="6" fill="#F3EBDC"/><path d="M936 352 h128 M936 364 h128 M936 376 h80" stroke="#0C1A16" stroke-width="2.5" opacity=".4"/>
+        <text class="label" x="1000" y="322" font-family="Charm, Georgia, serif" font-weight="700" font-size="32" fill="#D4F56A" text-anchor="middle">online server</text>
         <g id="grains"></g>
-        <rect class="murk" y="94" width="1200" height="326" fill="#5B5636"/>
+        <rect class="murk" y="146" width="1200" height="274" fill="#5B5636"/>
       </svg>
       <div class="words">
         <div>
@@ -395,25 +407,28 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
   </section>
 
   <section class="chapter night c4" aria-labelledby="chfour">
-    <div class="wrap">
-      <svg class="wide-art" viewBox="0 0 1200 380" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Still water: a perfectly calm pond at night with nothing in it but Panya's light, waiting, and its exact reflection below.">
-        <rect width="1200" height="190" fill="#050D0A"/>
-        <rect y="190" width="1200" height="190" fill="#091712"/>
-        <path d="M0 190 H1200" stroke="#24443A" stroke-width="1.5"/>
-        <g fill="#F3EBDC"><circle cx="220" cy="50" r="1.2"/><circle cx="420" cy="90" r="1"/><circle cx="820" cy="40" r="1.3"/><circle cx="1000" cy="110" r="1"/></g>
-        <g fill="#F3EBDC" opacity=".35"><circle cx="220" cy="330" r="1.2"/><circle cx="420" cy="290" r="1"/><circle cx="820" cy="340" r="1.3"/><circle cx="1000" cy="270" r="1"/></g>
-        <g class="pblink"><circle cx="600" cy="104" r="72" fill="url(#ffly)"/><circle cx="600" cy="104" r="17" fill="#F7FFD6"/></g>
-        <ellipse cx="594.6" cy="106" rx="2.4" ry="3" fill="#0C1A16"/><ellipse cx="605.4" cy="106" rx="2.4" ry="3" fill="#0C1A16"/>
-        <g opacity=".45"><circle cx="600" cy="276" r="72" fill="url(#ffly)"/><circle cx="600" cy="276" r="17" fill="#F7FFD6" opacity=".7"/></g>
+    <div class="wrap spread">
+      <svg class="art" viewBox="0 0 600 460" role="img" aria-label="Still water: a perfectly calm pond at night with nothing in it but Panya’s light, waiting, and its exact reflection below.">
+        <rect width="600" height="230" fill="#050D0A"/>
+        <rect y="230" width="600" height="230" fill="#091712"/>
+        <path d="M0 230 H600" stroke="#24443A" stroke-width="1.5"/>
+        <g filter="url(#gouache)" stroke="#12261F" stroke-width="5" stroke-linecap="round" fill="none"><path d="M60 300 H200 M380 330 H540 M120 400 H300"/></g>
+        <g fill="#F3EBDC"><circle cx="90" cy="50" r="1.2"/><circle cx="210" cy="100" r="1"/><circle cx="430" cy="44" r="1.3"/><circle cx="520" cy="130" r="1"/></g>
+        <g fill="#F3EBDC" opacity=".35"><circle cx="90" cy="410" r="1.2"/><circle cx="210" cy="360" r="1"/><circle cx="430" cy="416" r="1.3"/><circle cx="520" cy="330" r="1"/></g>
+        <g class="pblink"><circle cx="300" cy="128" r="76" fill="url(#ffly)"/><circle cx="300" cy="128" r="18" fill="#F7FFD6"/></g>
+        <ellipse cx="294.4" cy="130" rx="2.5" ry="3.2" fill="#0C1A16"/><ellipse cx="305.6" cy="130" rx="2.5" ry="3.2" fill="#0C1A16"/>
+        <g opacity=".45"><circle cx="300" cy="332" r="76" fill="url(#ffly)"/><circle cx="300" cy="332" r="18" fill="#F7FFD6" opacity=".7"/></g>
       </svg>
-      <p class="num">Chapter four</p>
-      <h2 id="chfour">You decide.</h2>
-      <p class="story">Whatever you chose, the call was yours, and so was the reasoning. Panya’s job was to make sure you saw the choice, understood the tradeoff, and had a way to check the result.</p>
-      <p class="card-dec" aria-live="polite"><span id="card-1">Decision: notes stay on my laptop</span><span id="card-2">Why: my students’ privacy first</span><span id="card-3" class="risk">Risk I accept: no automatic backup</span></p>
+      <div class="words">
+        <p class="num">Chapter four</p>
+        <h2 id="chfour">You decide.</h2>
+        <p class="story">Whatever you chose, the call was yours, and so was the reasoning. Panya’s job was to make sure you saw the choice, understood the tradeoff, and had a way to check the result.</p>
+        <p class="card-dec" aria-live="polite"><span id="card-1">Decision: notes stay on my laptop</span><span id="card-2">Why: my students’ privacy first</span><span id="card-3" class="risk">Risk I accept: no automatic backup</span></p>
+      </div>
     </div>
   </section>
 
-  <section class="chapter dawn" aria-labelledby="chfive">
+  <section class="chapter dawn flip" aria-labelledby="chfive">
     <div class="wrap spread">
       <svg class="art" viewBox="0 0 600 460" role="img" aria-label="Dawn over a flooded rice paddy: mist on the water, the sun rising, rows of young rice, and Panya grown small and faint, settling to rest because you can see by daylight now.">
         <rect width="600" height="250" fill="url(#dawnsky)"/>
@@ -519,13 +534,13 @@ footer{padding:2rem 0 3rem;color:var(--muted);font-size:.95rem}
     var grains = document.getElementById("grains"), ns = "http://www.w3.org/2000/svg", seed = 7;
     function rnd() { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }
     for (var i = 0; i < 120; i++) {
-      var c = document.createElementNS(ns, "circle"), y = 104 + rnd() * 270;
+      var c = document.createElementNS(ns, "circle"), y = 150 + rnd() * 225;
       c.setAttribute("cx", (rnd() * 1200).toFixed(1)); c.setAttribute("cy", y.toFixed(1));
       c.setAttribute("r", (2 + rnd() * 4.5).toFixed(1));
       c.setAttribute("fill", rnd() > .5 ? "#8A7D52" : "#6E6A44");
       c.setAttribute("opacity", (.5 + rnd() * .35).toFixed(2));
       c.setAttribute("class", "grain");
-      c.style.setProperty("--d", (384 - y + rnd() * 8).toFixed(0) + "px");
+      c.style.setProperty("--d", (386 - y + rnd() * 8).toFixed(0) + "px");
       if (!reduce) c.style.transitionDelay = (rnd() * .8).toFixed(2) + "s";
       grains.appendChild(c);
     }
